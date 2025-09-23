@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomNPCTest", "CustomNPCTest.csproj", "{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CrossCompat|Any CPU = CrossCompat|Any CPU
+		Il2cpp|Any CPU = Il2cpp|Any CPU
+		Mono|Any CPU = Mono|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}.CrossCompat|Any CPU.ActiveCfg = CrossCompat|Any CPU
+		{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}.CrossCompat|Any CPU.Build.0 = CrossCompat|Any CPU
+		{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}.Il2cpp|Any CPU.ActiveCfg = Il2cpp|Any CPU
+		{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}.Il2cpp|Any CPU.Build.0 = Il2cpp|Any CPU
+		{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}.Mono|Any CPU.ActiveCfg = Mono|Any CPU
+		{10B53C34-1526-4A5B-A2BF-3E9E357E5F3C}.Mono|Any CPU.Build.0 = Mono|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61AD1327-CAD9-4DCE-9C28-4B83B565FDEE}
+	EndGlobalSection
+EndGlobal
