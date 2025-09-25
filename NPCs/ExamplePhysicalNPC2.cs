@@ -6,6 +6,7 @@ using S1API.Money;
 using S1API.Economy;
 using S1API.Entities.NPCs.Northtown;
 using S1API.GameTime;
+using S1API.Map.Buildings;
 using S1API.Products;
 using S1API.Properties;
 using UnityEngine;
@@ -24,7 +25,6 @@ namespace CustomNPCTest.NPCs
         {
             Vector3 posA = new Vector3(-64.6576f, 1.065f, 51.3718f);
             Vector3 spawnPos = new Vector3(-40.324f, 1.065f, 66.1782f);
-            // var building = Buildings.GetAll().First();
             builder.WithSpawnPosition(spawnPos)
                 .EnsureCustomer()
                 .WithCustomerDefaults(cd =>
@@ -56,14 +56,14 @@ namespace CustomNPCTest.NPCs
                 })
                 .WithSchedule(plan =>
                 {
-                    plan.EnsureDealSignal();
-                    plan.Add(new UseVendingMachineSpec { StartTime = 875 });
-                    plan.Add(new WalkToSpec { Destination = posA, StartTime = 900, FaceDestinationDirection = true });
-                    plan.Add(new StayInBuildingSpec { BuildingName = "North apartments", StartTime = 1100, DurationMinutes = 60 });
-                    plan.Add(new LocationDialogueSpec
-                        { Destination = posA, StartTime = 1300, FaceDestinationDirection = true });
-                    plan.Add(new UseVendingMachineSpec { StartTime = 1400 });
-                    plan.Add(new StayInBuildingSpec { BuildingName = "North apartments", StartTime = 1425, DurationMinutes = 240 });
+                    plan
+                        .EnsureDealSignal()
+                        .Add(new UseVendingMachineSpec { StartTime = 875 })
+                        .WalkTo(posA, 900, faceDestinationDir: true)
+                        .StayInBuilding(Building.Get<NorthApartments>(), 1100, 60)
+                        .Add(new LocationDialogueSpec { Destination = posA, StartTime = 1300, FaceDestinationDirection = true })
+                        .Add(new UseVendingMachineSpec { StartTime = 1400 })
+                        .StayInBuilding(Building.Get<NorthApartments>(), 1425, 240);
                 });
         }
         

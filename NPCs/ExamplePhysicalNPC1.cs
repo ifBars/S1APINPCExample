@@ -6,6 +6,8 @@ using S1API.Money;
 using S1API.Economy;
 using S1API.Entities.NPCs.Northtown;
 using S1API.GameTime;
+using S1API.Growing;
+using S1API.Map.Buildings;
 using S1API.Products;
 using S1API.Properties;
 using UnityEngine;
@@ -22,9 +24,9 @@ namespace CustomNPCTest.NPCs
         
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
+            MelonLogger.Msg("Configuring prefab for NPC 1");
             Vector3 posA = new Vector3(-28.060f, 1.065f, 62.070f);
             Vector3 spawnPos = new Vector3(-53.5701f, 1.065f, 67.7955f);
-            // var building = Buildings.GetAll().First();
             builder.WithSpawnPosition(spawnPos)
                 .EnsureCustomer()
                 .WithCustomerDefaults(cd =>
@@ -56,14 +58,13 @@ namespace CustomNPCTest.NPCs
                 })
                 .WithSchedule(plan =>
                 {
-                    plan.EnsureDealSignal();
-                    plan.Add(new UseVendingMachineSpec { StartTime = 900 });
-                    plan.Add(new WalkToSpec { Destination = posA, StartTime = 925, FaceDestinationDirection = true });
-                    plan.Add(new StayInBuildingSpec { BuildingName = "North apartments", StartTime = 1100, DurationMinutes = 60 });
-                    plan.Add(new LocationDialogueSpec
-                        { Destination = posA, StartTime = 1300, FaceDestinationDirection = true });
-                    plan.Add(new UseVendingMachineSpec { StartTime = 1400 });
-                    plan.Add(new StayInBuildingSpec { BuildingName = "North apartments", StartTime = 1425, DurationMinutes = 240 });
+                    plan.EnsureDealSignal()
+                        .Add(new UseVendingMachineSpec { StartTime = 900 })
+                        .WalkTo(posA, 925, faceDestinationDir: true)
+                        .StayInBuilding(Building.Get<NorthApartments>(), 1100)
+                        .Add(new LocationDialogueSpec { Destination = posA, StartTime = 1300, FaceDestinationDirection = true })
+                        .Add(new UseVendingMachineSpec { StartTime = 1400 })
+                        .StayInBuilding(Building.Get<NorthApartments>(), 1425, 240);
                 });
         }
         
