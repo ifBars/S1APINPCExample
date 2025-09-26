@@ -48,7 +48,7 @@ namespace CustomNPCTest.NPCs
                 })
                 .WithRelationshipDefaults(r =>
                 {
-                    r.WithDelta(10.0f)
+                    r.WithDelta(5.0f)
                         .SetUnlocked(false)
                         .SetUnlockType(NPCRelationship.UnlockType.DirectApproach)
                         .WithConnectionsById("kyle_cooley", "ludwig_meyer", "austin_steiner");
@@ -121,7 +121,7 @@ namespace CustomNPCTest.NPCs
                 .Set<S1API.Entities.Appearances.CustomizationFields.EyeLidRestingStateRight>((0.5f, 0.5f))
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairColor>(new Color(0.1f, 0.1f, 0.1f))
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairStyle>("Avatar/Hair/BuzzCut/BuzzCut")
-                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Eyes>("Avatar/Layers/Face/Face_Agitated", Color.black)
+                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Face>("Avatar/Layers/Face/Face_Agitated", Color.black)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Shirts>("Avatar/Layers/Top/RolledButtonUp", Color.blue)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Pants>("Avatar/Layers/Bottom/Jorts", new Color(0.15f, 0.2f, 0.3f))
                 .WithAccessoryLayer<S1API.Entities.Appearances.AccessoryFields.Feet>("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.blue);

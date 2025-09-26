@@ -35,7 +35,7 @@ namespace CustomNPCTest.NPCs
                         .WithOrdersPerWeek(1, 4)
                         .WithPreferredOrderDay(Day.Sunday)
                         .WithOrderTime(900)
-                        .WithStandards(CustomerStandard.Low)
+                        .WithStandards(CustomerStandard.VeryLow)
                         .AllowDirectApproach(true)
                         .GuaranteeFirstSample(true)
                         .WithMutualRelationRequirement(minAt50: 2.5f, maxAt100: 4.0f)
@@ -165,7 +165,7 @@ namespace CustomNPCTest.NPCs
                 .Set<S1API.Entities.Appearances.CustomizationFields.EyeLidRestingStateRight>((0.5f, 0.5f))
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairColor>(new Color(0.1f, 0.1f, 0.1f))
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairStyle>("Avatar/Hair/Spiky/Spiky")
-                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Eyes>("Avatar/Layers/Face/Face_Agitated", Color.black)
+                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Face>("Avatar/Layers/Face/Face_Agitated", Color.black)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Shirts>("Avatar/Layers/Top/T-Shirt", Color.red)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Pants>("Avatar/Layers/Bottom/Jeans", new Color(0.15f, 0.2f, 0.3f))
                 .WithAccessoryLayer<S1API.Entities.Appearances.AccessoryFields.Feet>("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.red);
