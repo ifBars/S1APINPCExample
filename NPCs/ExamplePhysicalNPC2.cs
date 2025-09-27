@@ -51,8 +51,8 @@ namespace CustomNPCTest.NPCs
                     r.WithDelta(5.0f)
                         .SetUnlocked(false)
                         .SetUnlockType(NPCRelationship.UnlockType.DirectApproach)
-                        .WithConnectionsById("kyle_cooley", "ludwig_meyer", "austin_steiner");
-                    // .WithConnections(Get<KyleCooley>(), Get<LudwigMeyer>(), Get<AustinSteiner>());
+                        // .WithConnectionsById("kyle_cooley", "ludwig_meyer", "austin_steiner");
+                        .WithConnections(Get<KyleCooley>(), Get<LudwigMeyer>(), Get<AustinSteiner>());
                 })
                 .WithSchedule(plan =>
                 {
@@ -60,10 +60,10 @@ namespace CustomNPCTest.NPCs
                         .EnsureDealSignal()
                         .Add(new UseVendingMachineSpec { StartTime = 875 })
                         .WalkTo(posA, 900, faceDestinationDir: true)
-                        .StayInBuilding(Building.Get<NorthApartments>(), 1100, 60)
+                        .StayInBuilding(Building.Get<UpscaleApartments>(), 1100, 60)
                         .Add(new LocationDialogueSpec { Destination = posA, StartTime = 1300, FaceDestinationDirection = true })
                         .Add(new UseVendingMachineSpec { StartTime = 1400 })
-                        .StayInBuilding(Building.Get<NorthApartments>(), 1425, 240);
+                        .StayInBuilding(Building.Get<UpscaleApartments>(), 1425, 240);
                 });
         }
         
@@ -85,7 +85,7 @@ namespace CustomNPCTest.NPCs
                 
                 SendTextMessage("Hello from physical NPC 2!");
                 
-                Aggressiveness = 5f;
+                Aggressiveness = 1f;
                 Region = Region.Northtown;
 
                 // Customer.RequestProduct();
@@ -122,6 +122,7 @@ namespace CustomNPCTest.NPCs
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairColor>(new Color(0.1f, 0.1f, 0.1f))
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairStyle>("Avatar/Hair/BuzzCut/BuzzCut")
                 .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Face>("Avatar/Layers/Face/Face_Agitated", Color.black)
+                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Eyes>("Avatar/Layers/Face/OldPersonWrinkles", Color.red)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Shirts>("Avatar/Layers/Top/RolledButtonUp", Color.blue)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Pants>("Avatar/Layers/Bottom/Jorts", new Color(0.15f, 0.2f, 0.3f))
                 .WithAccessoryLayer<S1API.Entities.Appearances.AccessoryFields.Feet>("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.blue);

@@ -59,11 +59,11 @@ namespace CustomNPCTest.NPCs
                 .WithSchedule(plan =>
                 {
                     plan.EnsureDealSignal()
-                        .Add(new UseVendingMachineSpec { StartTime = 900 })
+                        .UseVendingMachine(900)
                         .WalkTo(posA, 925, faceDestinationDir: true)
                         .StayInBuilding(Building.Get<NorthApartments>(), 1100)
-                        .Add(new LocationDialogueSpec { Destination = posA, StartTime = 1300, FaceDestinationDirection = true })
-                        .Add(new UseVendingMachineSpec { StartTime = 1400 })
+                        .LocationDialogue(posA, 1300)
+                        .UseVendingMachine(1400)
                         .StayInBuilding(Building.Get<NorthApartments>(), 1425, 240);
                 });
         }
@@ -129,7 +129,7 @@ namespace CustomNPCTest.NPCs
                 });
 
                 Dialogue.UseContainerOnInteract("AlexShop");
-                Aggressiveness = 5f;
+                Aggressiveness = 3f;
                 Region = Region.Northtown;
 
                 // Customer.RequestProduct();
@@ -166,6 +166,7 @@ namespace CustomNPCTest.NPCs
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairColor>(new Color(0.1f, 0.1f, 0.1f))
                 .Set<S1API.Entities.Appearances.CustomizationFields.HairStyle>("Avatar/Hair/Spiky/Spiky")
                 .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Face>("Avatar/Layers/Face/Face_Agitated", Color.black)
+                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.FacialHair>("Avatar/Layers/Face/Freckles", Color.blue)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Shirts>("Avatar/Layers/Top/T-Shirt", Color.red)
                 .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Pants>("Avatar/Layers/Bottom/Jeans", new Color(0.15f, 0.2f, 0.3f))
                 .WithAccessoryLayer<S1API.Entities.Appearances.AccessoryFields.Feet>("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.red);
