@@ -27,7 +27,30 @@ namespace CustomNPCTest.NPCs
             MelonLogger.Msg("Configuring prefab for NPC 1");
             Vector3 posA = new Vector3(-28.060f, 1.065f, 62.070f);
             Vector3 spawnPos = new Vector3(-53.5701f, 1.065f, 67.7955f);
-            builder.WithSpawnPosition(spawnPos)
+            builder.WithIdentity("example_physical_npc1", "Alex", "Test1")
+                .WithAppearanceDefaults(av =>
+                {
+                    av.Gender = 0.0f;
+                    av.Height = 1.0f;
+                    av.Weight = 0.36f;
+                    av.SkinColor = new Color32(150, 120, 95, 255);
+                    av.EyeBallTint = Color.white;
+                    av.PupilDilation = 0.66f;
+                    av.EyebrowScale = 0.85f;
+                    av.EyebrowThickness = 0.6f;
+                    av.EyebrowRestingHeight = 0.1f;
+                    av.EyebrowRestingAngle = 0.05f;
+                    av.LeftEye = (0.5f, 0.5f);
+                    av.RightEye = (0.5f, 0.5f);
+                    av.HairColor = new Color(0.1f, 0.1f, 0.1f);
+                    av.HairPath = "Avatar/Hair/Spiky/Spiky";
+                    av.WithFaceLayer("Avatar/Layers/Face/Face_Agitated", Color.black);
+                    av.WithFaceLayer("Avatar/Layers/Face/Freckles", Color.blue);
+                    av.WithBodyLayer("Avatar/Layers/Top/T-Shirt", Color.red);
+                    av.WithBodyLayer("Avatar/Layers/Bottom/Jeans", new Color(0.15f, 0.2f, 0.3f));
+                    av.WithAccessoryLayer("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.red);
+                })
+                .WithSpawnPosition(spawnPos)
                 .EnsureCustomer()
                 .WithCustomerDefaults(cd =>
                 {
@@ -126,6 +149,7 @@ namespace CustomNPCTest.NPCs
                 Dialogue.OnChoiceSelected("BYE", () =>
                 {
                     Dialogue.StopOverride();
+                    SendTextMessage("You got scammed");
                 });
 
                 Dialogue.UseContainerOnInteract("AlexShop");

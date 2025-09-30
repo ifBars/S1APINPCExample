@@ -25,7 +25,30 @@ namespace CustomNPCTest.NPCs
         {
             Vector3 posA = new Vector3(-64.6576f, 1.065f, 51.3718f);
             Vector3 spawnPos = new Vector3(-40.324f, 1.065f, 66.1782f);
-            builder.WithSpawnPosition(spawnPos)
+            builder.WithIdentity("example_physical_npc2", "John", "Test2")
+                .WithAppearanceDefaults(av =>
+                {
+                    av.Gender = 0.0f;
+                    av.Height = 1.0f;
+                    av.Weight = 0.35f;
+                    av.SkinColor = new Color32(150, 120, 95, 255);
+                    av.EyeBallTint = Color.white;
+                    av.PupilDilation = 0.66f;
+                    av.EyebrowScale = 0.85f;
+                    av.EyebrowThickness = 0.6f;
+                    av.EyebrowRestingHeight = 0.1f;
+                    av.EyebrowRestingAngle = 0.05f;
+                    av.LeftEye = (0.5f, 0.5f);
+                    av.RightEye = (0.5f, 0.5f);
+                    av.HairColor = new Color(0.1f, 0.1f, 0.1f);
+                    av.HairPath = "Avatar/Hair/BuzzCut/BuzzCut";
+                    av.WithFaceLayer("Avatar/Layers/Face/Face_Agitated", Color.black);
+                    av.WithFaceLayer("Avatar/Layers/Face/OldPersonWrinkles", Color.red);
+                    av.WithBodyLayer("Avatar/Layers/Top/RolledButtonUp", Color.blue);
+                    av.WithBodyLayer("Avatar/Layers/Bottom/Jorts", new Color(0.15f, 0.2f, 0.3f));
+                    av.WithAccessoryLayer("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.blue);
+                })
+                .WithSpawnPosition(spawnPos)
                 .EnsureCustomer()
                 .WithCustomerDefaults(cd =>
                 {
