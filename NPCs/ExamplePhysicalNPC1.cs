@@ -2,6 +2,7 @@ using MelonLoader;
 using S1API.Entities;
 using S1API.Entities.Schedule;
 using S1API.Map;
+using S1API.Map.ParkingLots;
 using S1API.Money;
 using S1API.Economy;
 using S1API.Entities.NPCs.Northtown;
@@ -10,7 +11,9 @@ using S1API.Growing;
 using S1API.Map.Buildings;
 using S1API.Products;
 using S1API.Properties;
+using S1API.Vehicles;
 using UnityEngine;
+using System.Linq;
 
 namespace CustomNPCTest.NPCs
 {
@@ -24,6 +27,8 @@ namespace CustomNPCTest.NPCs
         
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
+            var manorParking = ParkingLotRegistry.Get<ManorParking>();
+            var northApartments = Building.Get<NorthApartments>();
             MelonLogger.Msg("Configuring prefab for NPC 1");
             Vector3 posA = new Vector3(-28.060f, 1.065f, 62.070f);
             Vector3 spawnPos = new Vector3(-53.5701f, 1.065f, 67.7955f);
@@ -84,10 +89,14 @@ namespace CustomNPCTest.NPCs
                     plan.EnsureDealSignal()
                         .UseVendingMachine(900)
                         .WalkTo(posA, 925, faceDestinationDir: true)
-                        .StayInBuilding(Building.Get<NorthApartments>(), 1100)
+                        .StayInBuilding(northApartments, 1100)
                         .LocationDialogue(posA, 1300)
                         .UseVendingMachine(1400)
-                        .StayInBuilding(Building.Get<NorthApartments>(), 1425, 240);
+                        .StayInBuilding(northApartments, 1425, 60)
+                        // .DriveToCarParkByName(ParkingLots.Get<ManorParking>().GameObjectName, "shitbox", 1500, ParkingAlignment.FrontToKerb);
+                        // .DriveToCarPark(ParkingLots.Get<ManorParking>(), new LandVehicle("shitbox"), 1500);
+                        .DriveToCarParkWithCreateVehicle(manorParking.GameObjectName, "cheetah",
+                            1550, new Vector3(-66.189f, -3.025f, 124.795f), Quaternion.Euler(0f, 90f, 0f), ParkingAlignment.FrontToKerb);
                 });
         }
         
