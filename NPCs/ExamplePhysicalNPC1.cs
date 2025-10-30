@@ -23,7 +23,7 @@ namespace CustomNPCTest.NPCs
     /// </summary>
     public sealed class ExamplePhysicalNPC1 : NPC
     {
-        protected override bool IsPhysical => true;
+        public override bool IsPhysical => true;
         
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
