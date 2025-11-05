@@ -24,7 +24,7 @@ namespace CustomNPCTest.NPCs
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
             Vector3 posA = new Vector3(-64.6576f, 1.065f, 51.3718f);
-            Vector3 spawnPos = new Vector3(-40.324f, 1.065f, 66.1782f);
+            Vector3 spawnPos = new Vector3(-53.67f, 1.063f, 84.8433f);
             builder.WithIdentity("example_physical_npc2", "John", "Test2")
                 .WithAppearanceDefaults(av =>
                 {
