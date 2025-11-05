@@ -19,7 +19,7 @@ namespace CustomNPCTest.NPCs
     /// </summary>
     public sealed class ExamplePhysicalNPC2 : NPC
     {
-        public override bool IsPhysical => false;
+        public override bool IsPhysical => true;
         
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
@@ -87,6 +87,15 @@ namespace CustomNPCTest.NPCs
                         .Add(new LocationDialogueSpec { Destination = posA, StartTime = 1300, FaceDestinationDirection = true })
                         .Add(new UseVendingMachineSpec { StartTime = 1400 })
                         .StayInBuilding(Building.Get<UpscaleApartments>(), 1425, 240);
+                })
+                .WithInventoryDefaults(inv =>
+                {
+                    // Specific startup items that will always be in inventory when spawned
+                    inv.WithStartupItems("donut", "cuke", "goldbar")
+                        // Random cash between $100 and $1000
+                        .WithRandomCash(min: 100, max: 1000)
+                        // Preserve inventory across sleep cycles
+                        .WithClearInventoryEachNight(false);
                 });
         }
         
@@ -110,6 +119,18 @@ namespace CustomNPCTest.NPCs
                 
                 Aggressiveness = 1f;
                 Region = Region.Northtown;
+
+                // Subscribe to deal completed event to recommend dealer
+                Customer.OnDealCompleted(() =>
+                {
+                    var dealerNPC = Get<ExamplePhysicalDealerNPC>();
+                    MelonLogger.Msg($"Deal completed with {ID}");
+                    if (dealerNPC != null && dealerNPC.IsDealer)
+                    {
+                        Customer.RecommendDealer(dealerNPC.Dealer);
+                        MelonLogger.Msg($"{ID} recommended dealer {dealerNPC.ID} after completing a deal!");
+                    }
+                });
 
                 // Customer.RequestProduct();
                 

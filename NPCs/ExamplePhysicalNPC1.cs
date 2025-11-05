@@ -97,6 +97,15 @@ namespace CustomNPCTest.NPCs
                         // .DriveToCarPark(ParkingLots.Get<ManorParking>(), new LandVehicle("shitbox"), 1500);
                         .DriveToCarParkWithCreateVehicle(manorParking.GameObjectName, "cheetah",
                             1550, new Vector3(-66.189f, -3.025f, 124.795f), Quaternion.Euler(0f, 90f, 0f), ParkingAlignment.FrontToKerb);
+                })
+                .WithInventoryDefaults(inv =>
+                {
+                    // Startup items that will always be in inventory when spawned
+                    inv.WithStartupItems("banana", "baseballbat", "cuke")
+                        // Random cash between $50 and $500
+                        .WithRandomCash(min: 50, max: 500)
+                        // Preserve inventory across sleep cycles
+                        .WithClearInventoryEachNight(false);
                 });
         }
         
