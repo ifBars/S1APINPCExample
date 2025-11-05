@@ -109,7 +109,7 @@ namespace CustomNPCTest.NPCs
             try
             {
                 base.OnCreated();
-                ApplyConsistentAppearance();
+                ApplyAppearance();
                 Appearance.Build();
                 
                 SendTextMessage("Hello, I'm a dealer NPC! I can help you distribute products to customers.");
@@ -131,7 +131,7 @@ namespace CustomNPCTest.NPCs
                     MelonLogger.Msg($"Dealer {ID} has been recommended!");
                 });
 
-                Aggressiveness = 2f; // Less aggressive than regular NPCs
+                Aggressiveness = 2f;
                 Region = Region.Northtown;
 
                 Schedule.Enable();
@@ -145,9 +145,9 @@ namespace CustomNPCTest.NPCs
         }
 
         /// <summary>
-        /// Applies a consistent appearance. Tweak the values below to your liking.
+        /// Applies an appearance. Tweak the values below to your liking.
         /// </summary>
-        private void ApplyConsistentAppearance()
+        private void ApplyAppearance()
         {
             // Core biometrics
             Appearance

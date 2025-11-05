@@ -112,7 +112,7 @@ namespace CustomNPCTest.NPCs
             try
             {
                 base.OnCreated();
-                ApplyConsistentAppearance();
+                ApplyAppearance();
 				Appearance.Build();
                 
                 SendTextMessage("Hello from physical NPC 2!");
@@ -145,9 +145,9 @@ namespace CustomNPCTest.NPCs
         }
 
 		/// <summary>
-		/// Applies a consistent appearance. Tweak the values below to your liking.
+		/// Applies an appearance. Tweak the values below to your liking.
 		/// </summary>
-		private void ApplyConsistentAppearance()
+		private void ApplyAppearance()
 		{
             // Core biometrics
             Appearance
