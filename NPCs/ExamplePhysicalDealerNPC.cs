@@ -42,6 +42,8 @@ namespace CustomNPCTest.NPCs
                     av.Height = 1.0f;
                     av.Weight = 0.5f;
                     av.SkinColor = new Color32(120, 100, 80, 255);
+                    av.LeftEyeLidColor = av.SkinColor;
+                    av.RightEyeLidColor = av.SkinColor;
                     av.EyeBallTint = Color.white;
                     av.PupilDilation = 0.8f;
                     av.EyebrowScale = 1.0f;
