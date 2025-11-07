@@ -31,7 +31,8 @@ namespace CustomNPCTest.NPCs
                     av.Gender = 0.0f;
                     av.Height = 1.0f;
                     av.Weight = 0.35f;
-                    av.SkinColor = new Color32(150, 120, 95, 255);
+                    var skinColor = new Color32(150, 120, 95, 255);
+                    av.SkinColor = skinColor;
                     av.LeftEyeLidColor = av.SkinColor;
                     av.RightEyeLidColor = av.SkinColor;
                     av.EyeBallTint = Color.white;
