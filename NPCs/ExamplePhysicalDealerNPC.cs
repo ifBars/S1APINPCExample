@@ -104,11 +104,7 @@ namespace CustomNPCTest.NPCs
                 });
         }
         
-        public ExamplePhysicalDealerNPC() : base(
-            id: "example_physical_dealer_npc",
-            firstName: "Dealer",
-            lastName: "Example",
-            icon: null)
+        public ExamplePhysicalDealerNPC() : base()
         {
         }
 
