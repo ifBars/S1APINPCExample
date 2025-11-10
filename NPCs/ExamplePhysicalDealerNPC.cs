@@ -1,19 +1,20 @@
+using System;
+using System.Linq;
 using MelonLoader;
-using S1API.Entities;
-using S1API.Entities.Schedule;
-using S1API.Map;
-using S1API.Map.ParkingLots;
-using S1API.Money;
 using S1API.Economy;
+using S1API.Entities;
 using S1API.Entities.NPCs.Northtown;
+using S1API.Entities.Schedule;
 using S1API.GameTime;
 using S1API.Growing;
+using S1API.Map;
 using S1API.Map.Buildings;
+using S1API.Map.ParkingLots;
+using S1API.Money;
 using S1API.Products;
 using S1API.Properties;
 using S1API.Vehicles;
 using UnityEngine;
-using System.Linq;
 
 namespace CustomNPCTest.NPCs
 {
@@ -25,6 +26,10 @@ namespace CustomNPCTest.NPCs
     {
         public override bool IsPhysical => true;
         public override bool IsDealer => true;
+
+        private Action _dealerRecruitedHandler;
+        private Action _dealerContractAcceptedHandler;
+        private Action _dealerRecommendedHandler;
         
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
@@ -112,33 +117,16 @@ namespace CustomNPCTest.NPCs
             try
             {
                 base.OnCreated();
-                ApplyAppearance();
                 Appearance.Build();
                 
                 SendTextMessage("Hello, I'm a dealer NPC! I can help you distribute products to customers.");
 
-                // Subscribe to dealer events
-                Dealer.OnRecruited(() =>
-                {
-                    MelonLogger.Msg($"Dealer {ID} has been recruited!");
-                    SendTextMessage("I'm ready to work for you!");
-                });
-
-                Dealer.OnContractAccepted(() =>
-                {
-                    MelonLogger.Msg($"Dealer {ID} accepted a new contract!");
-                });
-
-                Dealer.OnRecommended(() =>
-                {
-                    MelonLogger.Msg($"Dealer {ID} has been recommended!");
-                });
+                WireDealerEvents();
 
                 Aggressiveness = 2f;
                 Region = Region.Northtown;
 
                 Schedule.Enable();
-                Schedule.InitializeActions();
             }
             catch (System.Exception ex)
             {
@@ -147,31 +135,69 @@ namespace CustomNPCTest.NPCs
             }
         }
 
-        /// <summary>
-        /// Applies an appearance. Tweak the values below to your liking.
-        /// </summary>
-        private void ApplyAppearance()
+        protected override void OnDestroyed()
         {
-            // Core biometrics
-            Appearance
-                .Set<S1API.Entities.Appearances.CustomizationFields.Gender>(0.5f) // 0..1
-                .Set<S1API.Entities.Appearances.CustomizationFields.Height>(1.0f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.Weight>(0.5f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.SkinColor>(new Color32(120, 100, 80, 255))
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyeBallTint>(Color.white)
-                .Set<S1API.Entities.Appearances.CustomizationFields.PupilDilation>(0.8f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyebrowScale>(1.0f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyebrowThickness>(0.8f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyebrowRestingHeight>(0.0f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyebrowRestingAngle>(0.0f)
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyeLidRestingStateLeft>((0.6f, 0.6f))
-                .Set<S1API.Entities.Appearances.CustomizationFields.EyeLidRestingStateRight>((0.6f, 0.6f))
-                .Set<S1API.Entities.Appearances.CustomizationFields.HairColor>(new Color(0.2f, 0.15f, 0.1f))
-                .Set<S1API.Entities.Appearances.CustomizationFields.HairStyle>("Avatar/Hair/Spiky/Spiky")
-                .WithFaceLayer<S1API.Entities.Appearances.FaceLayerFields.Face>("Avatar/Layers/Face/Face_Agitated", Color.black)
-                .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Shirts>("Avatar/Layers/Top/T-Shirt", new Color(0.2f, 0.2f, 0.2f))
-                .WithBodyLayer<S1API.Entities.Appearances.BodyLayerFields.Pants>("Avatar/Layers/Bottom/Jeans", new Color(0.1f, 0.1f, 0.1f))
-                .WithAccessoryLayer<S1API.Entities.Appearances.AccessoryFields.Feet>("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.black);
+            base.OnDestroyed();
+            UnwireDealerEvents();
+        }
+
+        private void WireDealerEvents()
+        {
+            if (Dealer == null)
+            {
+                MelonLogger.Warning($"Dealer component missing for {ID}; cannot wire dealer events.");
+                return;
+            }
+
+            _dealerRecruitedHandler ??= HandleDealerRecruited;
+            _dealerContractAcceptedHandler ??= HandleContractAccepted;
+            _dealerRecommendedHandler ??= HandleDealerRecommended;
+
+            Dealer.OnRecruited -= _dealerRecruitedHandler;
+            Dealer.OnRecruited += _dealerRecruitedHandler;
+
+            Dealer.OnContractAccepted -= _dealerContractAcceptedHandler;
+            Dealer.OnContractAccepted += _dealerContractAcceptedHandler;
+
+            Dealer.OnRecommended -= _dealerRecommendedHandler;
+            Dealer.OnRecommended += _dealerRecommendedHandler;
+        }
+
+        private void UnwireDealerEvents()
+        {
+            if (Dealer == null)
+                return;
+
+            if (_dealerRecruitedHandler != null)
+            {
+                Dealer.OnRecruited -= _dealerRecruitedHandler;
+            }
+
+            if (_dealerContractAcceptedHandler != null)
+            {
+                Dealer.OnContractAccepted -= _dealerContractAcceptedHandler;
+            }
+
+            if (_dealerRecommendedHandler != null)
+            {
+                Dealer.OnRecommended -= _dealerRecommendedHandler;
+            }
+        }
+
+        private void HandleDealerRecruited()
+        {
+            MelonLogger.Msg($"Dealer {ID} has been recruited!");
+            SendTextMessage("I'm ready to work for you!");
+        }
+
+        private void HandleContractAccepted()
+        {
+            MelonLogger.Msg($"Dealer {ID} accepted a new contract!");
+        }
+
+        private void HandleDealerRecommended()
+        {
+            MelonLogger.Msg($"Dealer {ID} has been recommended!");
         }
     }
 }
