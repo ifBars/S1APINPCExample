@@ -112,11 +112,7 @@ namespace CustomNPCTest.NPCs
                 });
         }
         
-        public ExamplePhysicalNPC1() : base(
-            id: "example_physical_npc1",
-            firstName: "Alex",
-            lastName: "Test1",
-            icon: null)
+        public ExamplePhysicalNPC1() : base()
         {
         }
 
