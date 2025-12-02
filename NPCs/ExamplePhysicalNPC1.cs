@@ -84,8 +84,7 @@ namespace CustomNPCTest.NPCs
                     r.WithDelta(1.5f)
                         .SetUnlocked(false)
                         .SetUnlockType(NPCRelationship.UnlockType.DirectApproach)
-                        // .WithConnectionsById("kyle_cooley", "ludwig_meyer", "austin_steiner")
-                        .WithConnections(Get<KyleCooley>(), Get<LudwigMeyer>(), Get<AustinSteiner>());
+                        .WithConnections<KyleCooley, LudwigMeyer, AustinSteiner>();
                 })
                 .WithSchedule(plan =>
                 {
@@ -112,9 +111,11 @@ namespace CustomNPCTest.NPCs
                 });
         }
         
+        /*
         public ExamplePhysicalNPC1() : base()
         {
         }
+        */
 
         protected override void OnCreated()
         {

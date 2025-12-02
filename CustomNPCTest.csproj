@@ -176,6 +176,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Include="Core.cs" />
+	  <Compile Include="NPCs\CharacterCustomizerNPC.cs" />
 	  <Compile Include="NPCs\ExamplePhysicalDealerNPC.cs" />
 	  <Compile Include="NPCs\ExamplePhysicalNPC1.cs" />
 	  <Compile Include="NPCs\ExamplePhysicalNPC2.cs" />

@@ -72,7 +72,7 @@ namespace CustomNPCTest.NPCs
                     dd.WithSigningFee(1000f) // Cost to recruit this dealer
                         .WithCut(0.15f) // Dealer keeps 15% of earnings
                         .WithDealerType(DealerType.PlayerDealer) // Works for the player
-                        .WithHomeName("North Apartments") // Home building name
+                        .WithHome(northApartments) // Home building using Building wrapper
                         .AllowInsufficientQuality(false) // Won't sell below-quality items
                         .AllowExcessQuality(true) // Can sell above-quality items
                         .WithCompletedDealsVariable("dealer_completed_deals"); // Variable to track deals
@@ -81,8 +81,8 @@ namespace CustomNPCTest.NPCs
                 {
                     r.WithDelta(2.0f) // Starting relationship
                         .SetUnlocked(false) // Start locked
-                        .WithConnections(Get<KyleCooley>(), Get<LudwigMeyer>(), Get<AustinSteiner>())
-                        .SetUnlockType(NPCRelationship.UnlockType.DirectApproach); // Can be unlocked via direct approach
+                        .SetUnlockType(NPCRelationship.UnlockType.DirectApproach) // Can be unlocked via direct approach
+                        .WithConnections<KyleCooley, LudwigMeyer, AustinSteiner>();
                 })
                 .WithSchedule(plan =>
                 {

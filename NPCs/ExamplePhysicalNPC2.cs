@@ -80,13 +80,11 @@ namespace CustomNPCTest.NPCs
                     r.WithDelta(5.0f)
                         .SetUnlocked(false)
                         .SetUnlockType(NPCRelationship.UnlockType.DirectApproach)
-                        // .WithConnectionsById("kyle_cooley", "ludwig_meyer", "austin_steiner");
-                        .WithConnections(Get<KyleCooley>(), Get<LudwigMeyer>(), Get<AustinSteiner>());
+                        .WithConnections<KyleCooley, LudwigMeyer, AustinSteiner>();
                 })
                 .WithSchedule(plan =>
                 {
-                    plan
-                        .EnsureDealSignal()
+                    plan.EnsureDealSignal()
                         .Add(new UseVendingMachineSpec { StartTime = 875 })
                         .WalkTo(posA, 900, faceDestinationDir: true)
                         .StayInBuilding(Building.Get<UpscaleApartments>(), 1100, 60)
