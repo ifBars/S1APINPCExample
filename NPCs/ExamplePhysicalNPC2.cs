@@ -21,8 +21,6 @@ namespace CustomNPCTest.NPCs
     public sealed class ExamplePhysicalNPC2 : NPC
     {
         public override bool IsPhysical => true;
-
-        private Action _customerDealCompletedHandler;
         
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
@@ -53,6 +51,7 @@ namespace CustomNPCTest.NPCs
                     av.WithBodyLayer("Avatar/Layers/Top/RolledButtonUp", Color.blue);
                     av.WithBodyLayer("Avatar/Layers/Bottom/Jorts", new Color(0.15f, 0.2f, 0.3f));
                     av.WithAccessoryLayer("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.blue);
+                    av.WithImpostor("Mick");
                 })
                 .WithSpawnPosition(spawnPos)
                 .EnsureCustomer()
@@ -123,8 +122,6 @@ namespace CustomNPCTest.NPCs
                 Aggressiveness = 1f;
                 Region = Region.Northtown;
 
-                WireCustomerEvents();
-
                 // Customer.RequestProduct();
                 
                 Schedule.Enable();
@@ -139,39 +136,6 @@ namespace CustomNPCTest.NPCs
         protected override void OnDestroyed()
         {
             base.OnDestroyed();
-            UnwireCustomerEvents();
-        }
-
-        private void WireCustomerEvents()
-        {
-            if (Customer == null)
-            {
-                MelonLogger.Warning($"Customer component missing for {ID}; cannot wire deal events.");
-                return;
-            }
-
-            _customerDealCompletedHandler ??= HandleDealCompleted;
-            Customer.OnDealCompleted -= _customerDealCompletedHandler;
-            Customer.OnDealCompleted += _customerDealCompletedHandler;
-        }
-
-        private void UnwireCustomerEvents()
-        {
-            if (Customer == null || _customerDealCompletedHandler == null)
-                return;
-
-            Customer.OnDealCompleted -= _customerDealCompletedHandler;
-        }
-
-        private void HandleDealCompleted()
-        {
-            var dealerNPC = Get<ExamplePhysicalDealerNPC>();
-            MelonLogger.Msg($"Deal completed with {ID}");
-            if (dealerNPC == null || !dealerNPC.IsDealer)
-                return;
-
-            Customer.RecommendDealer(dealerNPC.Dealer);
-            MelonLogger.Msg($"{ID} recommended dealer {dealerNPC.ID} after completing a deal!");
         }
     }
 }

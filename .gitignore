@@ -25,3 +25,7 @@ AGENTS.md
 **/.docfx/
 **/docfx.json.bak
 **/xrefmap.yml
+/.agent
+/.agents
+/.claude
+skills-lock.json

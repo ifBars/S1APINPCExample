@@ -64,6 +64,7 @@ namespace CustomNPCTest.NPCs
                     av.WithBodyLayer("Avatar/Layers/Top/T-Shirt", new Color(0.2f, 0.2f, 0.2f));
                     av.WithBodyLayer("Avatar/Layers/Bottom/Jeans", new Color(0.1f, 0.1f, 0.1f));
                     av.WithAccessoryLayer("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.black);
+                    av.WithImpostor("Benji");
                 })
                 .WithSpawnPosition(spawnPos)
                 .EnsureDealer()
@@ -75,7 +76,10 @@ namespace CustomNPCTest.NPCs
                         .WithHome(northApartments) // Home building using Building wrapper
                         .AllowInsufficientQuality(false) // Won't sell below-quality items
                         .AllowExcessQuality(true) // Can sell above-quality items
-                        .WithCompletedDealsVariable("dealer_completed_deals"); // Variable to track deals
+                        .WithCompletedDealsVariable("dealer_completed_deals") // Variable to track deals
+                        .WithRecommendation(r => r
+                            .FromCustomer<ExamplePhysicalNPC2>()
+                            .OnDealCompleted()); // Auto-recommend after this customer completes a deal
                 })
                 .WithRelationshipDefaults(r =>
                 {
@@ -197,4 +201,3 @@ namespace CustomNPCTest.NPCs
         }
     }
 }
-

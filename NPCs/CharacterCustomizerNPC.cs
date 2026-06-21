@@ -33,6 +33,7 @@ namespace CustomNPCTest.NPCs
                     av.WithBodyLayer("Avatar/Layers/Top/T-Shirt", new Color(0.5f, 0.3f, 0.8f));
                     av.WithBodyLayer("Avatar/Layers/Bottom/Jeans", new Color(0.2f, 0.2f, 0.4f));
                     av.WithAccessoryLayer("Avatar/Accessories/Feet/Sneakers/Sneakers", new Color(0.9f, 0.9f, 0.9f));
+                    av.WithImpostor("Ludwig");
                 })
                 .WithSpawnPosition(spawnPos)
                 .WithRelationshipDefaults(r =>

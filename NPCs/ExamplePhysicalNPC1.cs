@@ -24,10 +24,10 @@ namespace CustomNPCTest.NPCs
     public sealed class ExamplePhysicalNPC1 : NPC
     {
         public override bool IsPhysical => true;
-        
+
         protected override void ConfigurePrefab(NPCPrefabBuilder builder)
         {
-            var manorParking = ParkingLotRegistry.Get<ManorParking>();
+            var parkingGarage = ParkingLotRegistry.Get<ParkingGarage>();
             var northApartments = Building.Get<NorthApartments>();
             MelonLogger.Msg("Configuring prefab for NPC 1");
             Vector3 posA = new Vector3(-28.060f, 1.065f, 62.070f);
@@ -57,8 +57,10 @@ namespace CustomNPCTest.NPCs
                     av.WithBodyLayer("Avatar/Layers/Top/T-Shirt", Color.red);
                     av.WithBodyLayer("Avatar/Layers/Bottom/Jeans", new Color(0.15f, 0.2f, 0.3f));
                     av.WithAccessoryLayer("Avatar/Accessories/Feet/Sneakers/Sneakers", Color.red);
+                    av.WithImpostor("Kyle");
                 })
                 .WithSpawnPosition(spawnPos)
+                .EnsureSmokeBreak(debugMode: true)
                 .EnsureCustomer()
                 .WithCustomerDefaults(cd =>
                 {
@@ -92,13 +94,13 @@ namespace CustomNPCTest.NPCs
                         .UseVendingMachine(900)
                         .WalkTo(posA, 925, faceDestinationDir: true)
                         .StayInBuilding(northApartments, 1100)
-                        .LocationDialogue(posA, 1300)
+                        // Type-safe location-based action: walk to posA at noon, smoke break for 30 min (EnsureSmokeBreak auto-called)
+                        .LocationBased(spawnPos, 1200, 60).Within(1.5f).OnArriveSmokeBreak()
                         .UseVendingMachine(1400)
                         .StayInBuilding(northApartments, 1425, 60)
                         // .DriveToCarParkByName(ParkingLots.Get<ManorParking>().GameObjectName, "shitbox", 1500, ParkingAlignment.FrontToKerb);
-                        // .DriveToCarPark(ParkingLots.Get<ManorParking>(), new LandVehicle("shitbox"), 1500);
-                        .DriveToCarParkWithCreateVehicle(manorParking.GameObjectName, "cheetah",
-                            1550, new Vector3(-66.189f, -3.025f, 124.795f), Quaternion.Euler(0f, 90f, 0f), ParkingAlignment.FrontToKerb);
+                        // .DriveToCarPark(parkingGarage, new LandVehicle("shitbox"), 1500);
+                        .DriveToCarParkWithCreateVehicle(parkingGarage.GameObjectName, "shitbox", 1550, new Vector3(-66.189f, -3.025f, 124.795f), Quaternion.Euler(0f, 90f, 0f), ParkingAlignment.FrontToKerb);
                 })
                 .WithInventoryDefaults(inv =>
                 {
@@ -110,7 +112,7 @@ namespace CustomNPCTest.NPCs
                         .WithClearInventoryEachNight(false);
                 });
         }
-        
+
         /*
         public ExamplePhysicalNPC1() : base()
         {
@@ -123,7 +125,7 @@ namespace CustomNPCTest.NPCs
             {
                 base.OnCreated();
 				Appearance.Build();
-                
+
                 SendTextMessage("Hello from physical NPC 1!");
 
                 Dialogue.BuildAndSetDatabase(db => {
@@ -156,9 +158,9 @@ namespace CustomNPCTest.NPCs
                     {
                         Dialogue.JumpTo("AlexShop", "NOT_ENOUGH");
                     }
-                    
+
                 });
-                
+
                 Dialogue.OnNodeDisplayed("INFO_NODE", () => {
                     // Ran when "Get scammed nerd." is shown
                 });
@@ -174,7 +176,7 @@ namespace CustomNPCTest.NPCs
                 Region = Region.Northtown;
 
                 // Customer.RequestProduct();
-                
+
                 Schedule.Enable();
             }
             catch (Exception ex)

@@ -5,7 +5,6 @@ using S1API;
 using S1API.Entities;
 using S1API.Entities.NPCs.Northtown;
 using S1API.Internal.Utils;
-using UnityEngine;
 
 [assembly: MelonInfo(typeof(CustomNPCTest.Core), Constants.MOD_NAME, Constants.MOD_VERSION, Constants.MOD_AUTHOR)]
 [assembly: MelonGame(Constants.Game.GAME_STUDIO, Constants.Game.GAME_NAME)]
